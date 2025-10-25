@@ -12,7 +12,9 @@ class Course {
     required this.title,
     required this.batch,
     required this.seatsLeft,
-    required this.daysLeft, required BoxFit fit,
+    required this.daysLeft,
+    required BoxFit fit,
+    required style,
   });
 }
 
@@ -20,33 +22,37 @@ const List<Course> courseData = [
   Course(
     imagePath: 'assets/images/image1.jpg',
     title: 'Full Stack Web Development with JavaScript (MERN)',
-    batch: 'ব্যাচ ৯',
-    seatsLeft: '৭ সিট বাকি',
-    daysLeft: '৫ দিন বাকি',
+    style: TextStyle(fontWeight: FontWeight.bold),
+    batch: 'ব্যাচ ১১',
+    seatsLeft: '৬ সিট বাকি',
+    daysLeft: '৬ দিন বাকি',
     fit: BoxFit.cover,
   ),
   Course(
     imagePath: 'assets/images/image2.jpg',
     title: 'Full Stack Web Development with Python, Django & React',
-    batch: 'ব্যাচ ৮',
-    seatsLeft: '৭ সিট বাকি',
-    daysLeft: '১ দিন বাকি',
+    style: TextStyle(fontWeight: FontWeight.bold),
+    batch: 'ব্যাচ ৬',
+    seatsLeft: '৮৬ সিট বাকি',
+    daysLeft: '৪০ দিন বাকি',
     fit: BoxFit.cover,
   ),
   Course(
     imagePath: 'assets/images/image3.jpg',
     title: 'Full Stack Web Development with ASP.NET Core',
-    batch: 'ব্যাচ ১০',
-    seatsLeft: '৭ সিট বাকি',
-    daysLeft: '৩ দিন বাকি',
+    style: TextStyle(fontWeight: FontWeight.bold),
+    batch: 'ব্যাচ ৭',
+    seatsLeft: '৭৫ সিট বাকি',
+    daysLeft: '৩৯ দিন বাকি',
     fit: BoxFit.cover,
   ),
   Course(
     imagePath: 'assets/images/image4.jpg',
     title: 'SQA: Manual & Automated Testing',
-    batch: 'ব্যাচ ১১',
-    seatsLeft: '৫ সিট বাকি',
-    daysLeft: '৪ দিন বাকি',
+    style: TextStyle(fontWeight: FontWeight.bold),
+    batch: 'ব্যাচ ১৩',
+    seatsLeft: '৬৫ সিট বাকি',
+    daysLeft: '৪১ দিন বাকি',
     fit: BoxFit.cover,
   ),
 ];
@@ -59,20 +65,27 @@ class CourseCardsGrid extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth > 1000;
 
+    // The screen that uses this widget already wraps the content in a
+    // SingleChildScrollView. Having another SingleChildScrollView here
+    // caused nested/unbounded scroll behavior which can lead to
+    // 'bottom overflowed' errors. Make this widget non-scrollable and
+    // let the parent handle scrolling instead.
     return SafeArea(
-      child: SingleChildScrollView(
+      child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
             GridView.builder(
               itemCount: courseData.length,
-              shrinkWrap: true, // ✅ allow the grid to fit its content
-              physics: const NeverScrollableScrollPhysics(), // ✅ disables inner scroll
+              shrinkWrap: true, // allow the grid to fit its content
+              physics:
+                  const NeverScrollableScrollPhysics(), // inner scroll disabled; parent scrolls
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: isLargeScreen ? 3 : 2,
                 crossAxisSpacing: 14,
                 mainAxisSpacing: 34,
-                childAspectRatio: isLargeScreen ? 0.9 : 0.75, // ✅ more height
+                // reduce the aspect ratio on small screens so cards are taller
+                childAspectRatio: isLargeScreen ? 0.9 : 0.62,
               ),
               itemBuilder: (context, index) {
                 return _CourseCard(course: courseData[index]);
@@ -114,7 +127,9 @@ class _CourseCard extends StatelessWidget {
             ),
             child: Image.asset(
               course.imagePath,
-              height: 90,
+              // slightly reduce fixed image height so the rest of the
+              // content can fit in the grid cell without overflowing
+              height: 80,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -144,8 +159,9 @@ class _CourseCard extends StatelessWidget {
             child: Text(
               course.title,
               style: const TextStyle(
-                fontSize: 13.5,
-                fontWeight: FontWeight.w600,
+                // increased font size for better legibility
+                fontSize: 15.0,
+                fontWeight: FontWeight.bold,
                 color: Colors.black87,
               ),
               maxLines: 3,
@@ -170,8 +186,11 @@ class _CourseCard extends StatelessWidget {
                   ),
                   padding: const EdgeInsets.symmetric(vertical: 8),
                 ),
-                icon: const Icon(Icons.arrow_forward,
-                    size: 15, color: Colors.black87),
+                icon: const Icon(
+                  Icons.arrow_forward,
+                  size: 15,
+                  color: Colors.black87,
+                ),
                 label: const Text(
                   'বিস্তারিত দেখুন',
                   style: TextStyle(

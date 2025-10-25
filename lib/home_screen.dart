@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'cards.dart'; // IMPORTANT: Replace 'your_project_name' with your actual project name if necessary
+import 'cards.dart';
 
 class CourseCardsScreen extends StatelessWidget {
   const CourseCardsScreen({super.key});
@@ -12,6 +12,7 @@ class CourseCardsScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         elevation: 1,
+        centerTitle: true
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),

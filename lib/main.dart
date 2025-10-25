@@ -1,0 +1,23 @@
+import 'package:flutter/material.dart';
+import 'home_screen.dart'; // IMPORTANT: Replace 'your_project_name' with your actual project name if necessary
+
+void main() {
+  runApp(const MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Exam Week 2 Assignment',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        fontFamily: 'Roboto', 
+      ),
+      home: const CourseCardsScreen(),
+    );
+  }
+}

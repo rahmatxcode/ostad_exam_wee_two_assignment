@@ -64,12 +64,6 @@ class CourseCardsGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final isLargeScreen = screenWidth > 1000;
-
-    // The screen that uses this widget already wraps the content in a
-    // SingleChildScrollView. Having another SingleChildScrollView here
-    // caused nested/unbounded scroll behavior which can lead to
-    // 'bottom overflowed' errors. Make this widget non-scrollable and
-    // let the parent handle scrolling instead.
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -77,14 +71,13 @@ class CourseCardsGrid extends StatelessWidget {
           children: [
             GridView.builder(
               itemCount: courseData.length,
-              shrinkWrap: true, // allow the grid to fit its content
+              shrinkWrap: true,
               physics:
-                  const NeverScrollableScrollPhysics(), // inner scroll disabled; parent scrolls
+                  const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: isLargeScreen ? 3 : 2,
                 crossAxisSpacing: 14,
                 mainAxisSpacing: 34,
-                // reduce the aspect ratio on small screens so cards are taller
                 childAspectRatio: isLargeScreen ? 0.9 : 0.62,
               ),
               itemBuilder: (context, index) {
@@ -127,8 +120,6 @@ class _CourseCard extends StatelessWidget {
             ),
             child: Image.asset(
               course.imagePath,
-              // slightly reduce fixed image height so the rest of the
-              // content can fit in the grid cell without overflowing
               height: 80,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -136,8 +127,6 @@ class _CourseCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 6),
-
-          // Info chips
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Wrap(
@@ -152,14 +141,11 @@ class _CourseCard extends StatelessWidget {
           ),
 
           const SizedBox(height: 8),
-
-          // Title
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8),
             child: Text(
               course.title,
               style: const TextStyle(
-                // increased font size for better legibility
                 fontSize: 15.0,
                 fontWeight: FontWeight.bold,
                 color: Colors.black87,
@@ -170,8 +156,6 @@ class _CourseCard extends StatelessWidget {
           ),
 
           const Spacer(),
-
-          // Button
           Padding(
             padding: const EdgeInsets.fromLTRB(8, 8, 8, 10),
             child: SizedBox(
